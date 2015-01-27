@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.flaginfo.dao.mapper.VisitMapper">
+	<resultMap id="visitMap" type="VisitModel">
+		<result property="id" column="ID" />
+		<result property="qcId" column="QC_ID" />
+		<result property="visitTime" column="VISIT_TIME" />
+		<result property="visitIp" column="VISIT_IP" />
+	</resultMap>
+
+	<insert id="insert" parameterType="VisitModel">
+		<selectKey keyProperty="id" resultType="java.lang.Integer"
+			order="BEFORE">
+			select
+			seq_QC_Visit_log.nextval
+			from dual
+		</selectKey>
+		insert into qc_visit_log(id, qc_id, visit_time, visit_ip) values(#{id, jdbcType=VARCHAR}, #{qcId, jdbcType=VARCHAR},SYSDATE, #{visitIp,jdbcType=VARCHAR})
+	</insert>
+</mapper>

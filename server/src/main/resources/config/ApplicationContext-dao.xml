@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	   <!-- 数据源配置 -->
+	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+		<property name="driver">
+			<value>${driver}</value>
+		</property>
+		<property name="driverUrl">
+			<value>${driverUrl}</value>
+		</property>
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+		<property name="alias" value="${alias}" />
+		<property name="maximumActiveTime" value="${maximumActiveTime}" />
+		<property name="prototypeCount" value="${prototypeCount}" />
+		<property name="maximumConnectionCount" value="${maximumConnectionCount}" />
+		<property name="minimumConnectionCount" value="${minimumConnectionCount}" />
+		<property name="simultaneousBuildThrottle" value="${simultaneousBuildThrottle}" />
+		<property name="houseKeepingTestSql" value="${houseKeepingTestSql}" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+	</bean>
+
+	<!-- mybatis 模版bean -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 框架运行行为信息 -->
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false"/>
+	</settings>
+	
+	<!-- 定义全限定类名的别名，简化配置 -->
+	<typeAliases>
+		<typeAlias alias="QRCodeModel"  type="cn.com.flaginfo.dao.model.QRCodeModel"/>
+		<typeAlias alias="CardModel"  type="cn.com.flaginfo.dao.model.CardModel"/>
+		<typeAlias alias="VisitModel"  type="cn.com.flaginfo.dao.model.VisitModel"/>
+	</typeAliases>
+
+	<!-- 指定配置文件的路径，将文件进行组装 -->
+	<mappers>
+		<mapper resource="config/mapper/QRCodeMapper.xml" />
+		<mapper resource="config/mapper/CardMapper.xml" />
+		<mapper resource="config/mapper/VisitMapper.xml" />
+	</mappers>
+</configuration>

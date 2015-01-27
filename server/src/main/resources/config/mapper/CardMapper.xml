@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.flaginfo.dao.mapper.CardMapper">
+	<resultMap id="cardMap" type="CardModel">
+		<result property="id" column="ID" />
+		<result property="qcId" column="QC_ID" />
+		<result property="company" column="COMPANY" />
+		<result property="position" column="POSITION" />
+		<result property="mdn" column="MDN" />
+		<result property="fax" column="FAX" />
+		<result property="phone" column="PHONE" />
+		<result property="weChat" column="WECHAT" />
+		<result property="blog" column="BLOG" />
+		<result property="qq" column="QQ" />
+		<result property="homePage" column="HOMEPAGE" />
+		<result property="email" column="EMAIL" />
+		<result property="address" column="ADDRESS" />
+		<result property="remark" column="REMARK" />
+	</resultMap>
+
+<sql id="sql-where">
+	<where>
+		1=1
+		<if test="id != -1">and id = #{id}</if>
+		<if test="qcId != -1">and qc_id  = #{qcId}</if>
+		<if test="company!=null and company != ''">and  company = #{company}</if>
+		<if test="position!=null and position !=''">and  position = #{position}</if>
+		<if test="mdn != null and mdn != ''">and mdn  = #{mdn}</if>
+		<if test="fax != null and fax!=''">and fax  = #{fax}</if>
+		<if test="phone!=null and phone!=''">and phone  = #{phone}</if>
+		<if test="weChat!=null and weChat!= ''">and weChat  = #{weChat}</if>
+		<if test="blog!=null and blog!= ''">and blog  = #{blog}</if>
+		<if test="qq != null and qq!= ''">and  qq = #{qq}</if>
+		<if test="homePage!= null and homePage!=''">and homePage  = #{homePage}</if>
+		<if test="email != null and email!= ''">and email  = #{email}</if>
+		<if test="address != null and address!=''">and address  = #{address}</if>
+		<if test="remark != null and remark != ''">and remark  = #{remark}</if>
+	</where>
+</sql>
+
+<sql id="sql-set">
+	<set>
+		<if test="id != -1">id = #{id},</if>
+		<if test="qcId != -1">qc_id  = #{qcId},</if>
+		<if test="company!=null and company != ''">company = #{company},</if>
+		<if test="position!=null and position !=''">position = #{position},</if>
+		<if test="mdn != null and mdn != ''">mdn  = #{mdn},</if>
+		<if test="fax != null and fax!=''">fax  = #{fax},</if>
+		<if test="phone!=null and phone!=''">phone  = #{phone},</if>
+		<if test="weChat!=null and weChat!= ''">weChat  = #{weChat},</if>
+		<if test="blog!=null and blog!= ''">blog  = #{blog},</if>
+		<if test="qq != null and qq!= ''">qq = #{qq},</if>
+		<if test="homePage!= null and homePage!=''">homePage  = #{homePage},</if>
+		<if test="email != null and email!= ''">email  = #{email},</if>
+		<if test="address != null and address!=''">address  = #{address},</if>
+		<if test="remark != null and remark != ''">remark  = #{remark}</if>
+	</set>
+	<include refid="sql-where"/>
+</sql>
+	<!-- 查询单条二维码记录 -->
+	<select id="selectCard" parameterType="CardModel"
+		resultType="CardModel">
+		select * from QC_CARD_INFO
+		<include refid="sql-where"/>
+	</select>
+
+	<!-- 查询记录列表 -->
+	<select id="getList" parameterType="CardModel" resultMap="cardMap">
+		select * from QC_CARD_INFO
+		<include refid="sql-where"/>
+	</select>
+
+	<!-- 获取记录条数 -->
+	<select id="getCount" resultType="java.lang.Integer"
+		parameterType="CardModel">
+		select count(*) from QC_CARD_INFO
+		<include refid="sql-where"/>
+	</select>
+
+	<insert id="save" parameterType="CardModel">
+		<selectKey keyProperty="id" resultType="java.lang.Integer" order="BEFORE">
+			select
+			seq_QC_CARD_INFO.nextval
+			from dual
+		</selectKey>
+		
+		insert into QC_CARD_INFO(ID, qc_id,name, company, position,MDN, fax,phone, weChat, blog, qq, homepage, email, address, remark)
+		values(#{id}, #{qcId, jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{company,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR},#{mdn,jdbcType=VARCHAR},#{fax,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},#{weChat,jdbcType=VARCHAR},#{blog,jdbcType=VARCHAR},#{qq,jdbcType=VARCHAR},#{homePage,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR} )
+	</insert>
+	
+	<update id="update" parameterType="CardModel">
+		update QC_CARD_INFO
+		<include refid="sql-set"/>
+		<!-- set qc_id =  #{qcId, jdbcType=VARCHAR} where id = #{id} -->
+	</update>
+	
+	<delete id="delete" parameterType="CardModel">
+		delete from QC_CARD_INFO where  ID = #{id}
+	</delete>
+</mapper>

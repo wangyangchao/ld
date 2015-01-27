@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.flaginfo.dao.mapper.QRCodeMapper">
+	<resultMap id="codeMap" type="QRCodeModel">
+		<result property="id" column="ID" />
+		<result property="codeName" column="NAME" />
+		<result property="qrType" column="QR_TYPE" />
+		<result property="text" column="TEXT" />
+		<result property="url" column="URL" />
+		<result property="mdn" column="MDN" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="eId" column="E_ID" />
+		<result property="status" column="STATUS" />
+		<result property="createTime" column="CREATE_TIME" />
+		<result property="createUser" column="CREATE_USER" />
+		<result property="guid" column="GUID" />
+	</resultMap>
+
+<sql id="sql-where">
+	<where>
+		1=1
+		<if test="id!=-1">and id = #{id}</if>
+		<if test="codeName!=null and url != ''">and name = #{codeName}</if>
+		<if test="qrType != -1">and qr_type = #{qrType}</if>
+		<if test="text != null and url != ''">and text = #{text}</if>
+		<if test="url != null and url != ''">and url = #{url}</if>
+		<if test="mdn !=null and mdn != ''"> and mdn = #{mdn}</if>
+		<if test="description != null and description !=''">and description = #{description}</if>
+		<if test="beginTime != null and beginTime !=''">and create_time >= to_date(#{beginTime},'yyyy-MM-dd h24:mm:ss')</if>
+		<if test="endTime != null and endTime !=''">and create_time <![CDATA[ <= ]]> to_date(#{endTime},'yyyy-MM-dd h24:mm:ss')</if>
+		<if test="eId !=-1"> and e_id = #{eId}</if>
+		<if test="status != -1"> and status = #{status}</if>
+	</where>
+</sql>
+	<!-- 查询单条二维码记录 -->
+	<select id="selectQRCode" parameterType="QRCodeModel"
+		resultType="QRCodeModel">
+		select * from QC_QRCODE_INFO
+		<where>
+				1=1
+			<if test="guid != null and guid !=''">
+				AND GUID = #{guid}
+			</if>
+			<if test="id != -1">
+				AND ID = #{id}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询记录列表 -->
+	<select id="getList" parameterType="QRCodeModel" resultMap="codeMap">
+		select * from QC_QRCODE_INFO
+		<include refid="sql-where"/>
+	</select>
+
+	<!-- 获取记录条数 -->
+	<select id="getCount" resultType="java.lang.Integer"
+		parameterType="QRCodeModel">
+		select count(*) from QC_QRCODE_INFO
+		<include refid="sql-where"/>
+	</select>
+
+	<insert id="save" parameterType="QRCodeModel">
+		<selectKey keyProperty="id" resultType="java.lang.Integer" order="BEFORE">
+			select
+			seq_qc_qrcode_info.nextval
+			from dual
+		</selectKey>
+		
+		insert into QC_QRCODE_INFO(ID, NAME,QR_TYPE, TEXT, URL,MDN, DESCRIPTION,E_ID, STATUS, CREATE_TIME, CREATE_USER)
+		values(#{id}, #{codeName,jdbcType=VARCHAR},#{qrType,jdbcType=VARCHAR},#{text,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},#{mdn,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{eId,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},SYSDATE,#{createUser,jdbcType=VARCHAR} )
+	</insert>
+	
+	<update id="update" parameterType="QRCodeModel">
+		update QC_QRCODE_INFO
+		<set>
+		<if test="codeName!=null and url != ''"> name = #{codeName},</if>
+		<if test="qrType != -1">qr_type = #{qrType},</if>
+		<if test="text != null and url != ''">text = #{text},</if>
+		<if test="url != null and url != ''"> url = #{url},</if>
+		<if test="mdn !=null and mdn != ''">  mdn = #{mdn},</if>
+		<if test="description != null and description !=''">description = #{description},</if>
+		<if test="eId !=-1"> e_id = #{eId},</if>
+		<if test="status != -1"> status = #{status},</if>
+		<if test="status != null"> guid = #{guid}</if>
+		</set>
+		where id = #{id}
+		
+	</update>
+	
+	<delete id="delete" parameterType="QRCodeModel">
+		delete from QC_QRCODE_INFO where  ID = #{id}
+	</delete>
+</mapper>
