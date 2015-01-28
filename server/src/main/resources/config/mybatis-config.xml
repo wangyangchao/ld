@@ -9,16 +9,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</settings>
 	
 	<!-- 定义全限定类名的别名，简化配置 -->
-	<typeAliases>
+	<!-- <typeAliases>
 		<typeAlias alias="QRCodeModel"  type="cn.com.flaginfo.dao.model.QRCodeModel"/>
 		<typeAlias alias="CardModel"  type="cn.com.flaginfo.dao.model.CardModel"/>
 		<typeAlias alias="VisitModel"  type="cn.com.flaginfo.dao.model.VisitModel"/>
-	</typeAliases>
+	</typeAliases> -->
 
 	<!-- 指定配置文件的路径，将文件进行组装 -->
-	<mappers>
+<!-- 	<mappers>
 		<mapper resource="config/mapper/QRCodeMapper.xml" />
 		<mapper resource="config/mapper/CardMapper.xml" />
 		<mapper resource="config/mapper/VisitMapper.xml" />
-	</mappers>
+	</mappers> -->
 </configuration>
