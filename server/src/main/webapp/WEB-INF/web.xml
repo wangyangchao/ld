@@ -6,7 +6,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			<!--加载多个spring配置文件 -->
-			classpath*:config/ApplicationContext*.xml 
+			<!-- classpath*:config/ApplicationContext*.xml  -->
 		</param-value>
 	</context-param>
 	<!-- 定义SPRING监听器，加载spring -->
